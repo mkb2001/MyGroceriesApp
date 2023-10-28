@@ -1,1 +1,1 @@
-SELECT * FROM item
+SELECT * FROM users
