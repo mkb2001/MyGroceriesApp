@@ -1,2 +1,2 @@
 # MyGroceriesApp
-A Groceries management cross platform application using React/ReactNative and SpringBoot
+A Groceries management cross platform application API in SpringBoot
