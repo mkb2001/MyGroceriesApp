@@ -3,6 +3,7 @@ package com.example.groceries.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class ItemService {
         logger.info("add items method in Item Service has ended");
     }
 
-    public void removeItem(Long itemId){
+    public void removeItem(UUID itemId){
         logger.info("remove items method in Item Service has started");
         boolean idExists = itemRepository.existsById(itemId);
         if (!idExists) {
@@ -50,7 +51,7 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(Long itemId, ItemRequest item){
+    public void updateItem(UUID itemId, ItemRequest item){
         logger.info("update items method in Item Service has started");
         Item dbItem = itemRepository.findById(itemId).orElseThrow(()->new IllegalStateException(
             "Item with id " + itemId + " does not exist")

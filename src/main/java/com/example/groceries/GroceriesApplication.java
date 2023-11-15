@@ -13,7 +13,7 @@ import com.example.groceries.security.repository.UserRepository;
 @SpringBootApplication
 public class GroceriesApplication implements CommandLineRunner{
 
-@Autowired
+	@Autowired
 	private UserRepository userRepository;
 
 	public static void main(String[] args) {

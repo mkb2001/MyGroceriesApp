@@ -3,6 +3,7 @@ package com.example.groceries.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
-	public void deleteCategory(Long categoryId) {
+	public void deleteCategory(UUID categoryId) {
 		logger.info("delete category method in Category Service has started");
 		boolean idExists = categoryRepository.existsById(categoryId);
 		if (!idExists) {
@@ -52,7 +53,7 @@ public class CategoryService {
 	}
 
 	@Transactional
-    public void updateCategory(Long categoryId, CategoryRequest category){
+    public void updateCategory(UUID categoryId, CategoryRequest category){
 		logger.info("update category method in Category Service has started");
 		Category dbCategory = categoryRepository.findById(categoryId)
 			.orElseThrow(() -> new IllegalStateException(

@@ -1,6 +1,7 @@
 package com.example.groceries.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,14 +43,14 @@ public class ItemController {
     }
 
     @PutMapping(path="/{itemId}")
-    public ResponseEntity<String> updateItem(@PathVariable("itemId") Long itemId,
+    public ResponseEntity<String> updateItem(@PathVariable("itemId") UUID itemId,
         @RequestBody ItemRequest item){
             itemService.updateItem(itemId, item);
             return ResponseEntity.ok("Updated item");
         }
 
     @DeleteMapping(path = "/{itemId}")
-    public ResponseEntity<String> deleteItem(@PathVariable("itemId") Long itemId){
+    public ResponseEntity<String> deleteItem(@PathVariable("itemId") UUID itemId){
         itemService.removeItem(itemId);
         return ResponseEntity.ok("Item deleted successfully");
     }

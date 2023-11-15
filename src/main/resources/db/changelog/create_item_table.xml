@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet author="andrew" id="create-item-table">
+        <createTable tableName="item">
+            <column name="item_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="category_id_fk" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="double"/>
+            <column name="quantity" type="double"/>
+            <column name="unit" type="varchar(255)"/>
+
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew" id="addForeignKeyConstraint-item">
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="item"
+                                 constraintName="fk_category"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="category_id" referencedTableName="category"/>
+    </changeSet>
+
+
+</databaseChangeLog>
