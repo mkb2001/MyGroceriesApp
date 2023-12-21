@@ -26,7 +26,7 @@ public class GroceriesApplication implements CommandLineRunner{
 		if (null == adminAccount) {
 			User user = new User();
 			user.setEmail("admin@admin.com");
-			user.setUserName("admin");
+			user.setUsername("admin");
 			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
 			user.setRole(Role.ADMIN);
 

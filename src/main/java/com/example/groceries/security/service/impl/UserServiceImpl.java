@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService{
         logger.info("User details retrieval has started");
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username){
-                return userRepository.findUserByEmail(username)
+            public UserDetails loadUserByUsername(String userName){
+                return userRepository.findUserByUsername(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };

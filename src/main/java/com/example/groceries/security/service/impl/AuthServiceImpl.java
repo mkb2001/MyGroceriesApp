@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService{
     public User signup(SignUpRequest request){
         logger.info("signup request has started");
         User user = new User();
-        user.setUserName(request.getUsername());
+        user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
@@ -47,8 +47,8 @@ public class AuthServiceImpl implements AuthService{
 
     public JwtAuthResponse signin(SignInRequest request) {
         logger.info("sign in request has started");
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        var user = userRepository.findUserByUsername(request.getUsername()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
         var jwt = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
@@ -59,8 +59,8 @@ public class AuthServiceImpl implements AuthService{
 
     public JwtAuthResponse refreshToken(RefreshTokenRequest request) {
         logger.info("refresh token request has started");
-        String userEmail = jwtService.extractUserName(request.getToken());
-        User user = userRepository.findUserByEmail(userEmail).orElseThrow();
+        String userName = jwtService.extractUserName(request.getToken());
+        User user = userRepository.findUserByUsername(userName).orElseThrow();
         if(jwtService.isTokenValid(request.getToken(), user)){
             var jwt = jwtService.generateToken(user);
             JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
