@@ -13,11 +13,12 @@ import com.example.groceries.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path= "/api/v1/auth")
 @RequiredArgsConstructor
