@@ -2,6 +2,7 @@ package com.example.groceries.security.entity;
 
 import java.util.*;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +16,9 @@ import lombok.Data;
 public class User implements UserDetails{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid-gen")
+    protected UUID userId;
 
     @Column(nullable = false, unique = true)
     private String username;
