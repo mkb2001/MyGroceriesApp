@@ -7,7 +7,6 @@ import com.example.groceries.security.dto.JwtAuthResponse;
 import com.example.groceries.security.dto.RefreshTokenRequest;
 import com.example.groceries.security.dto.SignInRequest;
 import com.example.groceries.security.dto.SignUpRequest;
-import com.example.groceries.security.entity.User;
 import com.example.groceries.security.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class AuthenticationController {
     private final AuthService authService;
 
     @PostMapping(path ="/signup")
-    public ResponseEntity<User> signup(@RequestBody SignUpRequest request) {
+    public ResponseEntity<JwtAuthResponse> signup(@RequestBody SignUpRequest request) {
         return ResponseEntity.ok(authService.signup(request));
     }
 

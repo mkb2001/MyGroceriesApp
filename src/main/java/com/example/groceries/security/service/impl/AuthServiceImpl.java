@@ -34,15 +34,25 @@ public class AuthServiceImpl implements AuthService{
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    public User signup(SignUpRequest request){
+    public JwtAuthResponse signup(SignUpRequest request){
         logger.info("signup request has started");
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
+        User savedUser = userRepository.save(user);
+        
+    // Generate JWT token and refresh token for the newly created user
+    var jwt = jwtService.generateToken(savedUser);
+    var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), savedUser);
 
-        return userRepository.save(user);
+    // Return a JwtAuthResponse object containing both tokens
+    JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+    jwtAuthResponse.setUsername(request.getUsername());
+    jwtAuthResponse.setToken(jwt);
+    jwtAuthResponse.setRefreshToken(refreshToken);
+    return jwtAuthResponse;
     }
 
     public JwtAuthResponse signin(SignInRequest request) {
