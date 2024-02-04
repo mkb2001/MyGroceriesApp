@@ -36,13 +36,6 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // CorsConfiguration corsConfiguration = new CorsConfiguration();
-        // logger.info("Cors configuration has started");
-        // corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        // corsConfiguration.setAllowedOrigins(List.of("https://d0f2-102-134-149-145.ngrok.io"));
-        // corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","OPTIONS"));
-        // corsConfiguration.setAllowCredentials(true);
-        // corsConfiguration.setExposedHeaders(List.of("Authorization"));
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.disable()) 

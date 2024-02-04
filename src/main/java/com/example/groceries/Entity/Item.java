@@ -22,9 +22,9 @@ public class Item {
     @Column(name = "item_id", nullable = false, unique = true, updatable = false)
     protected UUID itemId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "category_id_fk")
-    private Category category;
+    private Category categoryId;
 
     @Column(nullable = false)
     private String name;

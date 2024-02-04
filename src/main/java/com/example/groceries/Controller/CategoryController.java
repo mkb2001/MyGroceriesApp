@@ -3,6 +3,7 @@ package com.example.groceries.Controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,9 +30,9 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addCategory(@RequestBody Category category) {
-        categoryService.addCategory(category);
-        return ResponseEntity.ok("Category added successfully");
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+        Category savedCategory = categoryService.addCategory(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
 
     @GetMapping
