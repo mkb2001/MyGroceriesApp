@@ -3,7 +3,6 @@ package com.example.groceries.Controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,29 +25,28 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(path = "api/v1/category")
 @RequiredArgsConstructor
 public class CategoryController {
-    
+
     private final CategoryService categoryService;
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addCategory(@RequestBody Category category) {
-        categoryService.addCategory(category);
-        return ResponseEntity.ok("Category added successfully");
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.addCategory(category));
     }
 
     @GetMapping
-    public List<Category> getCategories(){
+    public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
     @PutMapping(path = "/{categoryId}")
     public ResponseEntity<String> updateCategory(@PathVariable("categoryId") UUID categoryId,
-        @RequestBody CategoryRequest name){
-            categoryService.updateCategory(categoryId, name);
-            return ResponseEntity.ok("Updated category");
-        }
+            @RequestBody CategoryRequest name) {
+        categoryService.updateCategory(categoryId, name);
+        return ResponseEntity.ok("Updated category");
+    }
 
-    @DeleteMapping(path = "/{categoryId}") 
-    public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") UUID categoryId){
+    @DeleteMapping(path = "/{categoryId}")
+    public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") UUID categoryId) {
         categoryService.deleteCategory(categoryId);
         return ResponseEntity.ok("Category deleted successfully");
     }
