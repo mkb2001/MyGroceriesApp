@@ -30,9 +30,9 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping(path = "/add")
-    public ResponseEntity<?> addCategory(@RequestBody Category category) {
-        Category savedCategory = categoryService.addCategory(category);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
+    public ResponseEntity<String> addCategory(@RequestBody Category category) {
+        categoryService.addCategory(category);
+        return ResponseEntity.ok("Category added successfully");
     }
 
     @GetMapping
