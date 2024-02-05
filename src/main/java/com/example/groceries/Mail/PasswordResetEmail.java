@@ -27,6 +27,7 @@ public class PasswordResetEmail {
         String mailContent = "<html>" +
                 "<head>" +
                 "<style>" +
+                ".container { max-width: 100px; margin: 0 auto; }" +
                 ".copy-button { display: inline-block; padding: 8px 16px; background-color: #4CAF50; color: white; text-decoration: none; cursor: pointer; }" +
                 "</style>" +
                 "</head>" +
