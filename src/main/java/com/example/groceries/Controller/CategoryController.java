@@ -29,8 +29,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.addCategory(category));
+    public Category addCategory(@RequestBody Category category) {
+        return categoryService.addCategory(category);
     }
 
     @GetMapping
