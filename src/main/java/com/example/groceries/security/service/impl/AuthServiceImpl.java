@@ -22,7 +22,6 @@ import com.example.groceries.security.service.AuthService;
 import com.example.groceries.security.service.JwtService;
 
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.*;
 import java.io.UnsupportedEncodingException;
 
@@ -98,7 +97,7 @@ public class AuthServiceImpl implements AuthService {
         return "Password reset token sent successfully";
     }
 
-    public String passwordResetToken(UserPasswordReset request, HttpServletRequest servletRequest)
+    public String passwordResetToken(UserPasswordReset request)
             throws MessagingException, UnsupportedEncodingException {
         logger.info("password request sent");
         var userName = userRepository.findUserByUsername(request.getUserName())

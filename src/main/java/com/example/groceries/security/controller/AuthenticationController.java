@@ -11,7 +11,6 @@ import com.example.groceries.security.dto.UserPasswordReset;
 import com.example.groceries.security.service.AuthService;
 
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 
 import lombok.RequiredArgsConstructor;
 import java.io.UnsupportedEncodingException;
@@ -51,9 +50,8 @@ public class AuthenticationController {
     }
 
     @PostMapping(path = "/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody UserPasswordReset user,
-            final HttpServletRequest servletRequest) throws UnsupportedEncodingException, MessagingException {
-        return ResponseEntity.ok(authService.passwordResetToken(user, servletRequest));
+    public ResponseEntity<String> forgotPassword(@RequestBody UserPasswordReset user) throws UnsupportedEncodingException, MessagingException {
+        return ResponseEntity.ok(authService.passwordResetToken(user));
     }
 
     @PostMapping(path = "/reset-password")

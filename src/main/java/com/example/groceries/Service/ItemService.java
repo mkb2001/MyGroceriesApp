@@ -1,12 +1,10 @@
 package com.example.groceries.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.example.groceries.Entity.Item;
@@ -21,15 +19,15 @@ import lombok.RequiredArgsConstructor;
 public class ItemService {
 
     Logger logger = LoggerFactory.getLogger(ItemService.class);
-    
-    private final ItemRepository itemRepository;
 
+    private final ItemRepository itemRepository;
 
     public List<Item> getItems() {
         logger.info("get items method in Item Service has started");
         return itemRepository.findAll();
     }
-    public void addItem(Item item){
+
+    public void addItem(Item item) {
         logger.info("add items method in Item Service has started");
         Optional<Item> itemByName = itemRepository.findItemByName(item.getName());
         if (itemByName.isPresent()) {
@@ -40,7 +38,7 @@ public class ItemService {
         logger.info("add items method in Item Service has ended");
     }
 
-    public void removeItem(UUID itemId){
+    public void removeItem(@NonNull UUID itemId) {
         logger.info("remove items method in Item Service has started");
         boolean idExists = itemRepository.existsById(itemId);
         if (!idExists) {
@@ -51,28 +49,26 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(UUID itemId, ItemRequest item){
+    public void updateItem(@NonNull UUID itemId, ItemRequest item) {
         logger.info("update items method in Item Service has started");
-        Item dbItem = itemRepository.findById(itemId).orElseThrow(()->new IllegalStateException(
-            "Item with id " + itemId + " does not exist")
-        );
+        Item dbItem = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException(
+                "Item with id " + itemId + " does not exist"));
         if (item.name() != null && item.name().length() > 0 && !Objects.equals(dbItem.getName(), item.name())) {
-            dbItem.setName(item.name()); 
-            
+            dbItem.setName(item.name());
+
         }
         if (item.quantity() != null && item.quantity() > 0 && !Objects.equals(dbItem.getQuantity(), item.quantity())) {
-            dbItem.setQuantity(item.quantity()); 
+            dbItem.setQuantity(item.quantity());
         }
         if (item.unit() != null && item.unit().length() > 0 && !Objects.equals(dbItem.getUnit(), item.unit())) {
-            dbItem.setUnit(item.unit()); 
+            dbItem.setUnit(item.unit());
         }
         if (item.price() != null && item.price() > 0 && !Objects.equals(dbItem.getPrice(), item.price())) {
-            dbItem.setPrice(item.price()); 
+            dbItem.setPrice(item.price());
         }
         itemRepository.save(dbItem);
         logger.info(item + " updated successfully");
         logger.info("update items method in Item Service has ended");
     }
-
 
 }

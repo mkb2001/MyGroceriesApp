@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.example.groceries.Entity.Category;
@@ -43,7 +44,7 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
-	public void deleteCategory(UUID categoryId) {
+	public void deleteCategory(@NonNull UUID categoryId) {
 		logger.info("delete category method in Category Service has started");
 		boolean idExists = categoryRepository.existsById(categoryId);
 		if (!idExists) {
@@ -54,7 +55,7 @@ public class CategoryService {
 	}
 
 	@Transactional
-	public void updateCategory(UUID categoryId, CategoryRequest category) {
+	public void updateCategory(@NonNull UUID categoryId, CategoryRequest category) {
 		logger.info("update category method in Category Service has started");
 		Category dbCategory = categoryRepository.findById(categoryId)
 				.orElseThrow(() -> new IllegalStateException(
