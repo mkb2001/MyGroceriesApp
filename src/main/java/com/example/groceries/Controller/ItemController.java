@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +35,13 @@ public class ItemController {
 
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addItem(@RequestBody Item item){
-        itemService.addItem(item);
-        return ResponseEntity.ok("Item added successfully");
+    public ResponseEntity<?> addItem(@RequestBody Item item){
+        try {
+            Item savedItem = itemService.addItem(item);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping
@@ -44,15 +50,23 @@ public class ItemController {
     }
 
     @PutMapping(path="/{itemId}")
-    public ResponseEntity<String> updateItem(@PathVariable("itemId") UUID itemId,
+    public ResponseEntity<String> updateItem(@PathVariable("itemId") @NonNull UUID itemId,
         @RequestBody ItemRequest item){
-            itemService.updateItem(itemId, item);
-            return ResponseEntity.ok("Updated item");
+            try {
+                String updatedItem = itemService.updateItem(itemId, item);
+                return ResponseEntity.status(HttpStatus.CREATED).body(updatedItem);
+            } catch (IllegalStateException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
         }
 
     @DeleteMapping(path = "/{itemId}")
-    public ResponseEntity<String> deleteItem(@PathVariable("itemId") UUID itemId){
-        itemService.removeItem(itemId);
-        return ResponseEntity.ok("Item deleted successfully");
+    public ResponseEntity<String> deleteItem(@PathVariable("itemId") @NonNull UUID itemId){
+        try {
+            String savedItem = itemService.removeItem(itemId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

@@ -27,18 +27,21 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public void addItem(Item item) {
+    public Item addItem(Item item) {
         logger.info("add items method in Item Service has started");
         Optional<Item> itemByName = itemRepository.findItemByName(item.getName());
         if (itemByName.isPresent()) {
             throw new IllegalStateException("Item already exists");
+        } else {
+            Item savedItem = itemRepository.save(item);
+            logger.info(item + " added");
+            logger.info("add items method in Item Service has ended");
+            return savedItem;
         }
-        itemRepository.save(item);
-        logger.info(item + " added");
-        logger.info("add items method in Item Service has ended");
+
     }
 
-    public void removeItem(@NonNull UUID itemId) {
+    public String removeItem(@NonNull UUID itemId) {
         logger.info("remove items method in Item Service has started");
         boolean idExists = itemRepository.existsById(itemId);
         if (!idExists) {
@@ -46,10 +49,12 @@ public class ItemService {
         }
         itemRepository.deleteById(itemId);
         logger.info("remove items method in Item Service has ended");
+        return "Item deleted successfully";
     }
 
+    @SuppressWarnings("null")
     @Transactional
-    public void updateItem(@NonNull UUID itemId, ItemRequest item) {
+    public String updateItem(@NonNull UUID itemId, ItemRequest item) {
         logger.info("update items method in Item Service has started");
         Item dbItem = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException(
                 "Item with id " + itemId + " does not exist"));
@@ -67,8 +72,9 @@ public class ItemService {
             dbItem.setPrice(item.price());
         }
         itemRepository.save(dbItem);
-        logger.info(item + " updated successfully");
+        logger.info(item.name() + " updated successfully");
         logger.info("update items method in Item Service has ended");
+        return "Item updated successfully";
     }
 
 }
