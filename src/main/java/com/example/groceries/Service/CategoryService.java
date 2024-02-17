@@ -31,12 +31,12 @@ public class CategoryService {
 		Optional<Category> categoryByName = categoryRepository.findCategoryByName(category.getName());
 		if (categoryByName.isPresent()) {
 			throw new IllegalStateException("Category already exists");
+		} else {
+			Category categoryStored = categoryRepository.save(category);
+			logger.info(category + " created");
+			logger.info("add category method in Category Service has ended");
+			return categoryStored;
 		}
-
-		Category categoryStored = categoryRepository.save(category);
-		logger.info(category + " created");
-		logger.info("add category method in Category Service has ended");
-		return categoryStored;
 	}
 
 	public List<Category> getCategories() {
@@ -44,28 +44,30 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
-	public void deleteCategory(@NonNull UUID categoryId) {
+	public String deleteCategory(@NonNull UUID categoryId) {
 		logger.info("delete category method in Category Service has started");
 		boolean idExists = categoryRepository.existsById(categoryId);
 		if (!idExists) {
-			throw new IllegalStateException("Category with id " + categoryId + " does not exist!");
+			throw new IllegalStateException("Category does not exist!");
 		}
 		categoryRepository.deleteById(categoryId);
 		logger.info("delete category method in Category Service has ended");
+		return "Category deleted successfully";
 	}
 
 	@Transactional
-	public void updateCategory(@NonNull UUID categoryId, CategoryRequest category) {
+	public String updateCategory(@NonNull UUID categoryId, CategoryRequest category) {
 		logger.info("update category method in Category Service has started");
 		Category dbCategory = categoryRepository.findById(categoryId)
 				.orElseThrow(() -> new IllegalStateException(
-						"Category with id " + categoryId + " does not exist!"));
+						"Category does not exist!"));
 
 		if (category.name() != null && category.name().length() > 0
 				&& !Objects.equals(dbCategory.getName(), category.name())) {
 			dbCategory.setName(category.name());
 		}
 		logger.info("update category method in Category Service has ended");
+		return "Category updated successfully";
 	}
 
 }

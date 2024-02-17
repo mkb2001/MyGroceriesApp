@@ -3,6 +3,7 @@ package com.example.groceries.Controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,8 +30,13 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.addCategory(category));
+    public ResponseEntity<?> addCategory(@RequestBody Category category) {
+        try {
+            Category savedCategory = categoryService.addCategory(category);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping
@@ -41,13 +47,21 @@ public class CategoryController {
     @PutMapping(path = "/{categoryId}")
     public ResponseEntity<String> updateCategory(@PathVariable("categoryId") UUID categoryId,
             @RequestBody CategoryRequest name) {
-        categoryService.updateCategory(categoryId, name);
-        return ResponseEntity.ok("Updated category");
+        try {
+            String updatedCategory = categoryService.updateCategory(categoryId, name);
+            return ResponseEntity.status(HttpStatus.CREATED).body(updatedCategory);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping(path = "/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") UUID categoryId) {
-        categoryService.deleteCategory(categoryId);
-        return ResponseEntity.ok("Category deleted successfully");
+        try {
+            String deletedCategory = categoryService.deleteCategory(categoryId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(deletedCategory);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
