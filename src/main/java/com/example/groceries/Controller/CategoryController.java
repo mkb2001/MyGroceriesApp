@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +46,7 @@ public class CategoryController {
     }
 
     @PutMapping(path = "/{categoryId}")
-    public ResponseEntity<String> updateCategory(@PathVariable("categoryId") UUID categoryId,
+    public ResponseEntity<String> updateCategory(@PathVariable("categoryId") @NonNull UUID categoryId,
             @RequestBody CategoryRequest name) {
         try {
             String updatedCategory = categoryService.updateCategory(categoryId, name);
@@ -56,7 +57,7 @@ public class CategoryController {
     }
 
     @DeleteMapping(path = "/{categoryId}")
-    public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") UUID categoryId) {
+    public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") @NonNull UUID categoryId) {
         try {
             String deletedCategory = categoryService.deleteCategory(categoryId);
             return ResponseEntity.status(HttpStatus.CREATED).body(deletedCategory);
