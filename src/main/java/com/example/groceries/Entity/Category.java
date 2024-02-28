@@ -20,14 +20,17 @@ public class Category {
     @Id
     @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
     @GeneratedValue(generator = "uuid-gen")
-    @Column(name = "category_id", nullable = false, unique = true, updatable = false)
+    @Column(name = "cate_id", nullable = false, unique = true, updatable = false)
     protected UUID categoryId;
 
     @Column(nullable = false, unique = true)
     private String name;
 
-    // @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    // private Set<Item> items = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Item> items;
 
+    public Category(String name) {
+        this.name = name;
+    }
 
 }

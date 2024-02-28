@@ -22,9 +22,9 @@ public class Item {
     @Column(name = "item_id", nullable = false, unique = true, updatable = false)
     protected UUID itemId;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id_fk")
-    private Category categoryId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column(nullable = false)
     private String name;
@@ -34,4 +34,11 @@ public class Item {
     private double quantity;
 
     private String unit;
+
+    public Item(double price, double quantity, String unit, String name) {
+        this.price = price;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.name = name;
+    }
 }
