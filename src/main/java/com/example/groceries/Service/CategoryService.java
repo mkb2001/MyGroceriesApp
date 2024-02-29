@@ -1,10 +1,8 @@
 package com.example.groceries.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
+import com.example.groceries.Entity.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -32,10 +30,26 @@ public class CategoryService {
 		if (categoryByName.isPresent()) {
 			throw new IllegalStateException("Category already exists");
 		} else {
-			Category categoryStored = categoryRepository.save(category);
+			Category categoryIn = new Category(category.getName());
+
+			List<Item> items = new ArrayList<>();
+			for (Item itemIn : category.getItems()) {
+
+				Item item = new Item(itemIn.getPrice(), itemIn.getQuantity(), itemIn.getUnit(), itemIn.getName());
+
+				item.setCategory(categoryIn);
+
+				items.add(item);
+			}
+
+
+			categoryIn.setItems(items);
+
+
+			Category categoryOut = categoryRepository.save(categoryIn);
 			logger.info(category + " created");
 			logger.info("add category method in Category Service has ended");
-			return categoryStored;
+			return categoryOut;
 		}
 	}
 
